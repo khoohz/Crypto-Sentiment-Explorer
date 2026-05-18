@@ -1,3 +1,5 @@
-export default function CoinSummaryCard() {
+const CoinSummaryCard = () => {
   return null
 }
+
+export default CoinSummaryCard

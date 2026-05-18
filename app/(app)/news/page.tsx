@@ -1,5 +1,7 @@
 // News page
 
-export default function Page() {
+const Page = () => {
   return null
 }
+
+export default Page

@@ -1,5 +1,5 @@
 // GET /api/coins
 
-export async function GET() {
+export const GET = async () => {
   return new Response()
 }

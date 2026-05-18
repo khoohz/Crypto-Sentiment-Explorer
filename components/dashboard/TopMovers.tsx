@@ -1,3 +1,5 @@
-export default function TopMovers() {
+const TopMovers = () => {
   return null
 }
+
+export default TopMovers

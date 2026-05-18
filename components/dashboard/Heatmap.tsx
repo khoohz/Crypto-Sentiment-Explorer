@@ -1,3 +1,5 @@
-export default function Heatmap() {
+const Heatmap = () => {
   return null
 }
+
+export default Heatmap

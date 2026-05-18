@@ -1,3 +1,5 @@
-export default function NewsFeed() {
+const NewsFeed = () => {
   return null
 }
+
+export default NewsFeed

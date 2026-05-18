@@ -1,3 +1,5 @@
-export default function SentimentBadge() {
+const SentimentBadge = () => {
   return null
 }
+
+export default SentimentBadge

@@ -1,3 +1,5 @@
-export default function NewsCard() {
+const NewsCard = () => {
   return null
 }
+
+export default NewsCard

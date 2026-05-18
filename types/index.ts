@@ -63,3 +63,5 @@ export type CacheEntry = {
 
 // --- Sentiment Label ---
 export type SentimentLabel = "Bearish" | "Neutral" | "Bullish"
+
+export type NewsFetchPeriod = '24h' | '7d' | '30d'

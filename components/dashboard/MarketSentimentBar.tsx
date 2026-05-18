@@ -1,3 +1,5 @@
-export default function MarketSentimentBar() {
+const MarketSentimentBar = () => {
   return null
 }
+
+export default MarketSentimentBar
