@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ArticleScore {
+  article_id  String   @id
+  score       Float
+  summary     String
+  created_at  DateTime @default(now())
+}
+
+model Cache {
+  key         String   @id
+  value       String
+  expires_at  DateTime
+}
