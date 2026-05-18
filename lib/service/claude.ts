@@ -38,5 +38,4 @@ export const scoreArticle = async (
   }
 
   return parsed as LLMScoreResponse
-
 }
