@@ -43,13 +43,13 @@ export type ArticleCardProps = {
 // --- Sentiment Score ---
 export type LLMScoreResponse = {
   score: number                           // 1–10
-  summary: string
+  takeaway: string                        // one-line key takeaway
 }
 
 export type StoredScore = {
   article_id: string
   score: number
-  summary: string
+  takeaway: string                       // one-line key takeaway
   created_at: Date
 }
 

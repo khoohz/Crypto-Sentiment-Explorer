@@ -9,7 +9,7 @@ datasource db {
 model ArticleScore {
   article_id  String   @id
   score       Float
-  summary     String
+  takeaway    String
   created_at  DateTime @default(now())
 }
 
