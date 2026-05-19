@@ -13,7 +13,14 @@ const articleSource: Record<string, number> = {
 const coinNames: Record<string, string[]> = {
   'btc': ['Bitcoin', 'BTC'],
   'eth': ['Ethereum', 'ETH'],
-  // 8 more to be updated
+  'bnb': ['BNB', 'Binance Coin'],
+  'xrp': ['XRP', 'Ripple'],
+  'sol': ['Solana', 'SOL'],
+  'doge': ['Dogecoin', 'DOGE'],
+  'trx': ['TRON', 'TRX'],
+  'ada': ['Cardano', 'ADA'],
+  'link': ['Chainlink', 'LINK'],
+  'bch': ['Bitcoin Cash', 'BCH']
 }
 
 export const computeImpactWeight = (source: string, title: string, body: string, coinId: string): number => {

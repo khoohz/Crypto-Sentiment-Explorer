@@ -46,5 +46,5 @@ export const fetchCoinNews = async (coinId: string, period: NewsFetchPeriod): Pr
     published_at: article.published_at,
     body: article.snippet,
     coin_id: coinId
-  }))
+  }) as RawArticle)
 }
