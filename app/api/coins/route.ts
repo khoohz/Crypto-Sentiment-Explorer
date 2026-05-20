@@ -11,7 +11,7 @@ const TOP_10_COINS = ['btc', 'eth', 'bnb', 'xrp', 'sol', 'doge', 'trx', 'ada', '
 
 type CoinScoreResult = {
   coin_id: string
-  score: number
+  sentiment_score: number
   btc_adjusted_score: number
   sentiment_summary: string 
 }
@@ -36,7 +36,7 @@ const fetchAndScoreCoin = async (
   if (coinCacheEntry && btcCoinCacheEntry && coinSummaryCacheEntry) {
     return {
       coin_id: coin,
-      score: parseFloat(coinCacheEntry.value),
+      sentiment_score: parseFloat(coinCacheEntry.value),
       btc_adjusted_score: parseFloat(btcCoinCacheEntry.value),
       sentiment_summary: coinSummaryCacheEntry.value
     }
@@ -98,7 +98,7 @@ const fetchAndScoreCoin = async (
 
   return {
     coin_id: coin,
-    score: computedCoinScore,
+    sentiment_score: computedCoinScore,
     btc_adjusted_score: computedBtcAdjustmentScore,
     sentiment_summary: highestImpactNews.takeaway
   }
@@ -112,7 +112,7 @@ export const GET = async (request: Request) => {
 
   const btcScore = await fetchAndScoreCoin('btc', period)
   const otherCoins = TOP_10_COINS.filter(coin => coin !== 'btc')
-  const otherScores = await Promise.all(otherCoins.map(coin => fetchAndScoreCoin(coin, period, btcScore.score)))
+  const otherScores = await Promise.all(otherCoins.map(coin => fetchAndScoreCoin(coin, period, btcScore.sentiment_score)))
   const results: CoinScoreResult[]= [btcScore, ...otherScores]
 
   return NextResponse.json({ data: { results }})
