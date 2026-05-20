@@ -6,6 +6,7 @@ type MarketAuxArticle = {
   uuid: string
   title: string
   url: string
+  image_url: string
   source: string
   published_at: string
   snippet: string
@@ -41,10 +42,11 @@ export const fetchCoinNews = async (coinId: string, period: NewsFetchPeriod): Pr
   return coinNewsResponse.data.map((article: MarketAuxArticle) => ({
     id: article.uuid,
     title: article.title,
+    image_url: article.image_url,
     url: article.url,
     source: article.source,
     published_at: article.published_at,
     body: article.snippet,
     coin_id: coinId
-  }) as RawArticle)
+  }))
 }

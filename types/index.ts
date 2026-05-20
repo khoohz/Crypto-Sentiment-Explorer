@@ -19,6 +19,7 @@ export type RawArticle = {
   id: string
   title: string
   url: string
+  image_url?: string
   source: string
   published_at: string
   body?: string
@@ -29,15 +30,6 @@ export type ScoredArticle = RawArticle & {
   sentiment_score: number
   sentiment_summary: string
   impact_weight: number
-}
-
-export type ArticleCardProps = {
-  title: string
-  url: string
-  source: string
-  published_at: string
-  sentiment_score: number
-  sentiment_summary: string
 }
 
 // --- Sentiment Score ---
@@ -65,3 +57,5 @@ export type CacheEntry = {
 export type SentimentLabel = "Bearish" | "Neutral" | "Bullish"
 
 export type NewsFetchPeriod = '24h' | '7d' | '30d'
+
+// export type CoinsList = 
