@@ -5,9 +5,8 @@ import { scoreArticle } from "@/lib/service/claude"
 import { fetchCoinNews } from "@/lib/service/coingecko"
 import { computeCoinScore, computeImpactWeight, computeBtcAdjustmentScore } from "@/lib/utils/score"
 import type { NewsFetchPeriod, ScoredArticle } from "@/types"
+import { TOP_10_COINS } from "@/types"
 import { NextResponse } from "next/server"
-
-const TOP_10_COINS = ['btc', 'eth', 'bnb', 'xrp', 'sol', 'doge', 'trx', 'ada', 'link', 'bch']
 
 type CoinScoreResult = {
   coin_id: string

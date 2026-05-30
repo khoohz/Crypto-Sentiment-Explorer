@@ -58,4 +58,6 @@ export type SentimentLabel = "Bearish" | "Neutral" | "Bullish"
 
 export type NewsFetchPeriod = '24h' | '7d' | '30d'
 
-// export type CoinsList = 
+// --- Coins ---
+export const TOP_10_COINS = ['btc', 'eth', 'bnb', 'xrp', 'sol', 'doge', 'trx', 'ada', 'link', 'bch'] as const
+export type CoinSymbol = typeof TOP_10_COINS[number]

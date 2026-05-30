@@ -1,5 +1,6 @@
 // Aggregation math, time decay, BTC adjustment
-import { NewsFetchPeriod, ScoredArticle } from "@/types"
+import { NewsFetchPeriod, ScoredArticle, CoinSymbol } from "@/types"
+import { mapCoinNames } from "@/lib/utils/mapping"
 
 const articleSource: Record<string, number> = {
   'Bitcoin.com': 1,
@@ -10,25 +11,13 @@ const articleSource: Record<string, number> = {
   'Benzinga': 0.7
 }
 
-const coinNames: Record<string, string[]> = {
-  'btc': ['Bitcoin', 'BTC'],
-  'eth': ['Ethereum', 'ETH'],
-  'bnb': ['BNB', 'Binance Coin'],
-  'xrp': ['XRP', 'Ripple'],
-  'sol': ['Solana', 'SOL'],
-  'doge': ['Dogecoin', 'DOGE'],
-  'trx': ['TRON', 'TRX'],
-  'ada': ['Cardano', 'ADA'],
-  'link': ['Chainlink', 'LINK'],
-  'bch': ['Bitcoin Cash', 'BCH']
-}
 
 export const computeImpactWeight = (source: string, title: string, body: string, coinId: string): number => {
   // impact_weight = source_weight × prominence_multiplier × length_factor
   const sourceWeight = articleSource[source] ?? 0.5
 
-  const coinVariants = coinNames[coinId] ?? [coinId]
-  const prominenceMultiplier = coinVariants.some(name => title.includes(name)) ? 1.2 : 1.0
+  const { name, ticker } = mapCoinNames[coinId as CoinSymbol]
+  const prominenceMultiplier = [name, ticker].some(v => title.includes(v)) ? 1.2 : 1.0
 
   const wordCount = body.trim().split(/\s+/).filter((word) => word !== "").length
   const lengthFactor = Math.min(wordCount / 500, 1.5)
