@@ -1,3 +1,4 @@
+import QueryProvider from "@/components/providers/QueryProvider";
 import "./globals.css";
 import { DM_Sans, DM_Mono, Geist } from 'next/font/google'
 
@@ -25,7 +26,9 @@ const RootLayout = ({
   return (
     <html lang="en" className={`${geist.variable} ${dmMono.variable}`}>
       <body className="antialiased">
-        {children}
+        <QueryProvider>
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );
