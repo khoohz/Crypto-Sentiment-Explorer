@@ -30,16 +30,17 @@ const NewsFeed = () => {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['news', period, coin],
-    // queryFn: async () => {
-    //   const params = new URLSearchParams({ period, coin: coin === 'all' ? '' : coin })
-    //   const res = await fetch(`/api/news?${params}`)
-    //   if (!res.ok) throw new Error('Failed to fetch news')
-    //     const json: { data: { scoredArticles: ScoredArticle[] } } = await res.json()
-    //   return json.data.scoredArticles
-    // }
     queryFn: async () => {
-      return fakeArticle // temporary
-    }
+      const params = new URLSearchParams({ period, coin: coin === 'all' ? '' : coin })
+      const res = await fetch(`/api/news?${params}`)
+      if (!res.ok) throw new Error('Failed to fetch news')
+        const json: { data: { scoredArticles: ScoredArticle[] } } = await res.json()
+      return json.data.scoredArticles
+    },
+    retry: false 
+    // queryFn: async () => {
+    //   return fakeArticle // temporary
+    // }
   })
 
   return (
@@ -51,12 +52,6 @@ const NewsFeed = () => {
       <div className="relative z-10 mb-6">
         <NewsFilter period={period} coin={coin} onPeriodChange={setPeriod} onCoinChange={setCoin} />
       </div>
-      {isError ? (
-        <div className="text-center text-text-muted py-12">Failed to load news. Please try again.</div>
-      ) : (
-        <div></div>
-      )
-      }
       {isLoading ? (
         <NewsLoadingSkeleton />
       ) : isError ? (

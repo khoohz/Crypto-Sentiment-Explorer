@@ -6,13 +6,13 @@ import { fetchCoinNews } from "@/lib/service/coingecko"
 import { computeImpactWeight } from "@/lib/utils/score"
 import { NewsFetchPeriod, ScoredArticle } from "@/types"
 import { NextResponse } from "next/server"
-
-const TOP_10_COINS = ['btc', 'eth', 'bnb', 'xrp', 'sol', 'doge', 'trx', 'ada', 'link', 'bch']
+import { TOP_10_COINS } from "@/types"
 
 const fetchCoinsNews = async(coin: string, period: NewsFetchPeriod) => {
   const scoredArticles: ScoredArticle[] = []
 
   const articles = await fetchCoinNews(coin, period)
+  
   for (const article of articles) {
     const articleScore = await getArticleScore(article.id)
     if (!articleScore) {

@@ -16,6 +16,19 @@ type MarketAuxArticleResponse = {
   data: MarketAuxArticle[]
 }
 
+const CRYPTO_SYMBOLS: Record<string, string> = {
+  'btc': 'CC:BTC',
+  'eth': 'CC:ETH',
+  'bnb': 'CC:BNB',
+  'xrp': 'CC:XRP',
+  'sol': 'CC:SOL',
+  'doge': 'CC:DOGE',
+  'trx': 'CC:TRX',
+  'ada': 'CC:ADA',
+  'link': 'CC:LINK',
+  'bch': 'CC:BCH'
+}
+
 const MARKETAUX_API_URL = process.env.MARKETAUX_NEWS_API_URL
 const MARKETAUX_API_KEY = process.env.MARKETAUX_API_KEY
 
@@ -27,10 +40,13 @@ export const fetchCoinNews = async (coinId: string, period: NewsFetchPeriod): Pr
   const formattedPeriod = formatPeriod(period); 
 
   const url = new URL(`${MARKETAUX_API_URL}/all`)
-  url.searchParams.set('symbols', coinId)
+  url.searchParams.set('symbols', CRYPTO_SYMBOLS[coinId] ?? coinId)
   url.searchParams.set('language', 'en')
   url.searchParams.set('published_after', formattedPeriod)
+  url.searchParams.set('limit', '3') // temporary
   url.searchParams.set('api_token', MARKETAUX_API_KEY)
+
+  console.log('fetching URL:', url.toString())
 
   const coinNewsResponse = await fetch(url.toString()).then(response => {
     if (!response || (response.status !== 200 && response.status !== 201)) {

@@ -11,6 +11,10 @@ export const getArticleScore = async (article_id: string): Promise<StoredScore |
 }
 
 export const saveArticleScore = async (article_id: string, score: number, takeaway: string): Promise<StoredScore> => {
-  const article = await prisma.articleScore.create({ data: { article_id, score, takeaway }})
+  const article = await prisma.articleScore.upsert({
+    where: { article_id },
+    update: { score, takeaway },
+    create: { article_id, score, takeaway }
+  })
   return article as StoredScore
 }

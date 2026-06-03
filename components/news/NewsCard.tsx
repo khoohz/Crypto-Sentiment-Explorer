@@ -34,7 +34,7 @@ const NewsCard = ({ article, priority = false }: {article: ScoredArticle, priori
           <Astroid size={12} color="var(--color-accent-primary)" fill="var(--color-accent-primary)" className="inline mr-1 mb-0.5" />
           {article.sentiment_summary}
         </p>
-        <div className="border-t border-border-primary"></div>
+        <div className="border-t border-border-primary mt-auto"></div>
         <div className="flex justify-between text-sm text-text-primary">
           <div>
             {article.source}
