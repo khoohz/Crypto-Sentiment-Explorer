@@ -3,7 +3,7 @@
 import { getArticleScore, saveArticleScore } from "@/lib/db/articles"
 import { getCacheEntry, setCacheEntry } from "@/lib/db/cache"
 import { scoreArticle } from "@/lib/service/claude"
-import { fetchCoinNews } from "@/lib/service/coingecko"
+import { fetchCoinNews } from "@/lib/service/marketaux"
 import { computeBtcAdjustmentScore, computeCoinScore, computeImpactWeight } from "@/lib/utils/score"
 import { NewsFetchPeriod , ScoredArticle} from "@/types"
 import { NextResponse } from "next/server"
@@ -92,8 +92,8 @@ const fetchScoreCoinAndNews = async (
   }
 }
 
-export const GET = async (request: Request, { params }: { params: { id: string } }) => {
-  const { id: coin } = params;
+export const GET = async (request: Request, { params }: { params: Promise<{ id: string }> }) => {
+  const { id: coin } = await params
   const { searchParams } = new URL(request.url)
   const period = (searchParams.get('period') ?? '24h') as NewsFetchPeriod
 

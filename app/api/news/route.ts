@@ -2,7 +2,7 @@
 
 import { getArticleScore, saveArticleScore } from "@/lib/db/articles"
 import { scoreArticle } from "@/lib/service/claude"
-import { fetchCoinNews } from "@/lib/service/coingecko"
+import { fetchCoinNews } from "@/lib/service/marketaux"
 import { computeImpactWeight } from "@/lib/utils/score"
 import { NewsFetchPeriod, ScoredArticle } from "@/types"
 import { NextResponse } from "next/server"

@@ -5,13 +5,23 @@ export type RawCoin = {
   name: string
   market_cap_rank: number
   current_price: number
-  price_change_percentage_24h: number
+  price_change_24h: number
   image: string
 }
 
 export type ScoredCoin = RawCoin & {
   sentiment_score: number
   sentiment_summary: string
+}
+
+export type CoinScoreResult = {
+  coin_id: string
+  sentiment_score: number
+  btc_adjusted_score: number
+  sentiment_summary: string
+  image: string
+  current_price: number
+  price_change_24h: number
 }
 
 // --- Article ---

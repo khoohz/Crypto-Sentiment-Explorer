@@ -2,18 +2,12 @@
 import { getArticleScore, saveArticleScore } from "@/lib/db/articles"
 import { getCacheEntry, setCacheEntry } from "@/lib/db/cache"
 import { scoreArticle } from "@/lib/service/claude"
-import { fetchCoinNews } from "@/lib/service/coingecko"
+import { fetchCoinsData } from "@/lib/service/coingecko"
+import { fetchCoinNews } from "@/lib/service/marketaux"
 import { computeCoinScore, computeImpactWeight, computeBtcAdjustmentScore } from "@/lib/utils/score"
 import type { NewsFetchPeriod, ScoredArticle } from "@/types"
-import { TOP_10_COINS } from "@/types"
+import { TOP_10_COINS, CoinScoreResult } from "@/types"
 import { NextResponse } from "next/server"
-
-type CoinScoreResult = {
-  coin_id: string
-  sentiment_score: number
-  btc_adjusted_score: number
-  sentiment_summary: string 
-}
 
 type HighestImpactNews = {
   article_id: string,
@@ -25,7 +19,7 @@ const fetchAndScoreCoin = async (
   coin: string,
   period: NewsFetchPeriod,
   btcScore: number = 0
-): Promise<CoinScoreResult> => {
+) => {
   const [coinCacheEntry, btcCoinCacheEntry, coinSummaryCacheEntry] = await Promise.all([
     getCacheEntry(`coin_score:${coin}:${period}`),
     getCacheEntry(`btc_vs_coin_score:${coin}:${period}`),
@@ -87,7 +81,7 @@ const fetchAndScoreCoin = async (
 
   }
   const computedCoinScore = computeCoinScore(scoredArticle, period)
-  const computedBtcAdjustmentScore = computeBtcAdjustmentScore(computedCoinScore, btcScore)
+  const computedBtcAdjustmentScore = coin === 'btc' ? 0 : computeBtcAdjustmentScore(computedCoinScore, btcScore)
 
   await Promise.all([
     setCacheEntry(`coin_score:${coin}:${period}`, computedCoinScore.toString(), 15),
@@ -109,10 +103,23 @@ export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url)
   const period = (searchParams.get("period") ?? "24h") as NewsFetchPeriod
 
+  // fetch coins & score
   const btcScore = await fetchAndScoreCoin('btc', period)
   const otherCoins = TOP_10_COINS.filter(coin => coin !== 'btc')
   const otherScores = await Promise.all(otherCoins.map(coin => fetchAndScoreCoin(coin, period, btcScore.sentiment_score)))
-  const results: CoinScoreResult[]= [btcScore, ...otherScores]
 
-  return NextResponse.json({ data: { results }})
+  const coinScore= [btcScore, ...otherScores]
+
+  // get coins data
+  const coinsData = await fetchCoinsData()
+  const coinDataMap = Object.fromEntries(coinsData.map(c => [c.symbol, c]))
+
+  const coinScoreResults: CoinScoreResult[] = coinScore.map(result => ({
+    ...result,
+    image: coinDataMap[result.coin_id]?.image ?? '',
+    current_price: coinDataMap[result.coin_id]?.current_price ?? 0,
+    price_change_24h: coinDataMap[result.coin_id]?.price_change_24h ?? 0,
+  }))
+
+  return NextResponse.json({ data: { coinScoreResults }})
 }
