@@ -1,20 +1,14 @@
 import QueryProvider from "@/components/providers/QueryProvider";
 import "./globals.css";
-import { DM_Sans, DM_Mono, Geist } from 'next/font/google'
+import localFont from 'next/font/local'
 
-// const dmSans = DM_Sans({
-//   subsets: ['latin'],
-//   variable: '--font-dm-sans',
-// })
-
-const dmMono = DM_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
+const dmMono = localFont({
+  src: './fonts/GeistMonoVF.woff',
   variable: '--font-dm-mono',
 })
 
-const geist = Geist({
-  subsets: ['latin'],
+const geist = localFont({
+  src: './fonts/GeistVF.woff',
   variable: '--font-dm-sans',
 })
 
